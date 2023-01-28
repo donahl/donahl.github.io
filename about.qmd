@@ -2,8 +2,10 @@
 title: "About"
 ---
 
-About this site
+**About**
 
-```{r}
-1 + 1
-```
+I'm a Product Manager owning various Data Science applications for a large insurance company. I am currently pursuing a Master's degree in Applied Cognition and Neuroscience, specializing in Computational Modeling/Intelligent Systems.
+
+**Contact:**
+
+donabl\@gmail.com
