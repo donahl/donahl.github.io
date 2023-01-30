@@ -24,6 +24,10 @@ website:
           text: Assignment2
         - href: assignment3.qmd
           text: Assignment3
+      - text: Paper Reviews
+        menu:
+        - href: ToExplainOrToPredict.qmd
+          text: To Explain Or To Predict
 
 format:
   html:
