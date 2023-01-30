@@ -4,18 +4,26 @@ title: "Assignment 1"
 
 ## Proposed hypothesis
 
-Is there a correlation between volume of threatening events and local temperature in New York, US?
+There is a correlation between volume of threatening events and the local weather in terms of temperature and amount of precipitation
 
 ## How data can be collected
 
-1.  Download data from GDELT based on event code and NY state for the past 5 years
+1.  Download data from GDELT based on event code and a selected state for the past 5 years
 
-2.  Download historical temperature reading for NY in the past 5 years, possible sources: ncei.noaa.gov/cdo-web/
+2.  Download historical weather data reading for the selected state in the past 5 years. Possible source is ncei.noaa.gov/cdo-web/
 
 ## What methods could be considered?
 
-1.  Scatter plots
-2.  Linear regression
-3.  K-nearest
+1.  Scatter plots to check for correlation between independent variables (IV) and dependent variable (DV)
+2.  Scatter plots to check for correlation between the IVs
+3.  Use R multiple linear regression functions
+4.  Use R model validation functions to test model
 
 ## How to start the data project?
+
+1.  Define the data sampling parameters, such as number of years to collect events and weather data and for which US state
+2.  Go to GDELT and website to to download required data Data collection
+3.  Do data cleaning if needed
+4.  Join data together based on date and location
+5.  Divide data into training data set and testing data set
+6.  Use scatter plotting for visual inspection

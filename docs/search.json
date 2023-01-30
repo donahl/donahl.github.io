@@ -11,28 +11,28 @@
     "href": "Assignment1.html",
     "title": "Assignment 1",
     "section": "",
-    "text": "Is there a correlation between volume of threatening events and local temperature in New York, US?"
+    "text": "There is a correlation between volume of threatening events and the local weather in terms of temperature and amount of precipitation"
   },
   {
     "objectID": "Assignment1.html#how-data-can-be-collected",
     "href": "Assignment1.html#how-data-can-be-collected",
     "title": "Assignment 1",
     "section": "How data can be collected",
-    "text": "How data can be collected\n\nDownload data from GDELT based on event code and NY state for the past 5 years\nDownload historical temperature reading for NY in the past 5 years, possible sources: ncei.noaa.gov/cdo-web/"
+    "text": "How data can be collected\n\nDownload data from GDELT based on event code and a selected state for the past 5 years\nDownload historical weather data reading for the selected state in the past 5 years. Possible source is ncei.noaa.gov/cdo-web/"
   },
   {
     "objectID": "Assignment1.html#what-methods-could-be-considered",
     "href": "Assignment1.html#what-methods-could-be-considered",
     "title": "Assignment 1",
     "section": "What methods could be considered?",
-    "text": "What methods could be considered?\n\nScatter plots\nLinear regression\nK-nearest"
+    "text": "What methods could be considered?\n\nScatter plots to check for correlation between independent variables (IV) and dependent variable (DV)\nScatter plots to check for correlation between the IVs\nUse R multiple linear regression functions\nUse R model validation functions to test model"
   },
   {
     "objectID": "Assignment1.html#how-to-start-the-data-project",
     "href": "Assignment1.html#how-to-start-the-data-project",
     "title": "Assignment 1",
     "section": "How to start the data project?",
-    "text": "How to start the data project?"
+    "text": "How to start the data project?\n\nDefine the data sampling parameters, such as number of years to collect events and weather data and for which US state\nGo to GDELT and website to to download required data Data collection\nDo data cleaning if needed\nJoin data together based on date and location\nDivide data into training data set and testing data set\nUse scatter plotting for visual inspection"
   },
   {
     "objectID": "index.html",
