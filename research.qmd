@@ -1,0 +1,13 @@
+---
+title: Research Assignments
+---
+
+# Week 3 - Feb 1, 2023
+
+Name three applications using data mining and machine learning techniques
+
+1.  Alexa home device
+
+2.  Netflix recommendation list
+
+3.  Personal credit score
