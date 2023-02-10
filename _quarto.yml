@@ -20,8 +20,10 @@ website:
         menu:
         - href: Assignment1.qmd
           text: Assignment1
-        - href: assignment2.qmd
-          text: Assignment2
+        - href: labs\Lab01.qmd
+          text: Assignment2-Lab01
+        - href: labs\Lab02.qmd
+          text: Assignment2-Lab02
         - href: assignment3.qmd
           text: Assignment3
       - text: Paper Reviews

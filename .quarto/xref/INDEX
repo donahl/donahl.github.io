@@ -13,5 +13,11 @@
   },
   "research.qmd": {
     "research.html": "e8070b09"
+  },
+  "labs/Lab01.qmd": {
+    "Lab01.html": "c73fa82d"
+  },
+  "labs/Lab02.qmd": {
+    "Lab02.html": "aee2501b"
   }
 }
