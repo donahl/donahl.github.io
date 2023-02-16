@@ -1,6 +1,6 @@
 ---
 title: "EPPS 6302: Lab01"
-author: "Karl Ho"
+author: "Dona Lontok"
 format: html
 editor: visual
 ---

@@ -1,6 +1,6 @@
 ---
 title: "EPPS 6323: Lab03"
-author: "Student's name"
+author: "Dona Lontok"
 format: html
 editor: visual
 ---

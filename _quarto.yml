@@ -10,24 +10,24 @@ website:
     right:
       - href: index.qmd
         text: Home
-      - href: project.qmd
-        text: Project
       - href: cv.pdf
         text: CV
       - text: Assignments
         menu:
         - href: Assignment1.qmd
-          text: Assignment1
+          text: Assignment 1
         - href: labs\Lab01.qmd
-          text: Assignment2-Lab01
+          text: Assignment 2 - Lab01
         - href: labs\Lab02.qmd
-          text: Assignment2-Lab02
-        - href: assignment3.qmd
-          text: Assignment3
+          text: Assignment 2 - Lab02
+        - href: labs\Lab03.qmd
+          text: Assignment 3 - Lab03
       - text: Paper Reviews
         menu:
         - href: ToExplainOrToPredict.qmd
           text: To Explain Or To Predict
+      - href: project.qmd
+        text: Project
 
 format:
   html:
