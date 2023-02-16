@@ -4,14 +4,12 @@ project:
 
 website:
   title: "Dona Lontok"
+  favicon: me.png
+
   navbar:
     right:
       - href: index.qmd
         text: Home
-      - href: about.qmd
-        text: About
-      - href: research.qmd
-        text: Research
       - href: project.qmd
         text: Project
       - href: cv.pdf
@@ -33,7 +31,7 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme: slate
     css: styles.css
     toc: true
 

@@ -1,3 +1,13 @@
 ---
 title: "Welcome to my website!"
 ---
+
++-----------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| ![](me.png){width="2.12in"}                               | **Hello! I'm Dona.**                                                                                                                                                                         |
+|                                                           |                                                                                                                                                                                              |
+|                                                           | I'm based in Plano TX where I work as a Sr. Product Manager owning various Data Science applications for a large insurance company.                                                          |
+|                                                           |                                                                                                                                                                                              |
+|                                                           | I'm a student at the University of Texas Dallas and currently pursuing a Master's degree in Applied Cognition and Neuroscience, specializing in Computational Modeling/Intelligent Systems.  |
+|                                                           |                                                                                                                                                                                              |
+|                                                           | **Contact:** donabl\@gmail.com                                                                                                                                                               |
++-----------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
