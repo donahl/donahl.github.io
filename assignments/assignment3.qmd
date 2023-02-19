@@ -65,3 +65,5 @@ regplot(model, observation = TEDS_2016[1,], interval = "confidence", points=TRUE
 Tondu is treated as a number, instead of a category
 
 # What can be done to improve prediction of the dependent variable?
+
+Use a classification model, instead of regression. The dependent variable is a category, not a quantitative measure.
