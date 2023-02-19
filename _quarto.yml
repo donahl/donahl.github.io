@@ -14,7 +14,7 @@ website:
         text: CV
       - text: Assignments
         menu:
-        - href: Assignment1.qmd
+        - href: assignments\Assignment1.qmd
           text: Assignment 1
         - href: labs\Lab01.qmd
           text: Assignment 2 - Lab01
@@ -22,6 +22,8 @@ website:
           text: Assignment 2 - Lab02
         - href: labs\Lab03.qmd
           text: Assignment 3 - Lab03
+        - href: assignments\assignment3.qmd
+          text: Assignment 3 - Ted2016
       - text: Paper Reviews
         menu:
         - href: ToExplainOrToPredict.qmd

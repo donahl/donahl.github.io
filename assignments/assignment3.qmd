@@ -1,0 +1,67 @@
+---
+title: "EPPS 6323: Assignment 3"
+author: "Dona Lontok"
+format: html
+editor: visual
+---
+
+# TEDS2016 dataset & multiple regression model
+
+```{r}
+library(tidyverse)
+library(haven)
+library(regplot)
+
+TEDS_2016 <-
+  read_stata("https://github.com/datageneration/home/blob/master/DataProgramming/data/TEDS_2016.dta?raw=true")
+
+```
+
+# Subset of dataset
+
+```{r}
+TEDS_2016 |> select(Tondu, female, DPP, age, income, edu, Taiwanese, Econ_worse)
+```
+
+# regplot on Tondu \~ Age
+
+```{r}
+model <-  lm( Tondu ~ age, data = TEDS_2016)
+regplot(model, observation = TEDS_2016[1,], interval = "confidence")
+
+```
+
+![](images/image-1332090515.png)
+
+# regplot Tondu \~ Education
+
+```{r}
+model <-  lm( Tondu ~ Edu, data = TEDS_2016)
+regplot(model, observation = TEDS_2016[1,], interval = "confidence")
+```
+
+![](images/image-2044271333.png)
+
+# regplot on Tondu \~ Income
+
+```{r}
+model <-  lm( Tondu ~ income, data = TEDS_2016)
+regplot(model, observation = TEDS_2016[1,], interval = "confidence")
+```
+
+![](images/image-1171967788.png)
+
+# regplot on Tondu \~ All
+
+```{r}
+model <-  lm( Tondu ~ age + Edu + income, data = TEDS_2016)
+regplot(model, observation = TEDS_2016[1,], interval = "confidence", points=TRUE)
+```
+
+![](images/image-650267701.png)
+
+# What is the problem? Why?
+
+Tondu is treated as a number, instead of a category
+
+# What can be done to improve prediction of the dependent variable?
