@@ -24,6 +24,10 @@ website:
           text: Assignment 3 - Lab03
         - href: assignments\assignment3.qmd
           text: Assignment 3 - Ted2016
+        - href: assignments\Assignment4_pcr.qmd
+          text: Assignment 4 - PCR
+        - href: assignments\Assignment4_clustering.qmd
+          text: Assignment 4 - Clustering
       - text: Paper Reviews
         menu:
         - href: ToExplainOrToPredict.qmd
