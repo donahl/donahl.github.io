@@ -10,16 +10,11 @@ editor: visual
 ```{r}
 library(tidyverse)
 library(haven)
+library(regplot)
 
 TEDS_2016 <-
   read_stata("https://github.com/datageneration/home/blob/master/DataProgramming/data/TEDS_2016.dta?raw=true")
 
-regplot=function(x,y){
-  fit=lm(y~x)
-  plot(x,y)
-  abline(fit,col="red")
-}
-attach(TEDS_2016)
 ```
 
 # Subset of dataset
@@ -31,22 +26,39 @@ TEDS_2016 |> select(Tondu, female, DPP, age, income, edu, Taiwanese, Econ_worse)
 # regplot on Tondu \~ Age
 
 ```{r}
-regplot(Tondu,age)
+model <-  lm( Tondu ~ age, data = TEDS_2016)
+regplot(model, observation = TEDS_2016[1,], interval = "confidence")
+
 ```
 
-regplot(Tondu,age)
+![](images/image-1332090515.png)
 
 # regplot Tondu \~ Education
 
 ```{r}
-regplot(Tondu,Edu)
+model <-  lm( Tondu ~ Edu, data = TEDS_2016)
+regplot(model, observation = TEDS_2016[1,], interval = "confidence")
 ```
+
+![](images/image-2044271333.png)
 
 # regplot on Tondu \~ Income
 
 ```{r}
-regplot(Tondu,income)
+model <-  lm( Tondu ~ income, data = TEDS_2016)
+regplot(model, observation = TEDS_2016[1,], interval = "confidence")
 ```
+
+![](images/image-1171967788.png)
+
+# regplot on Tondu \~ All
+
+```{r}
+model <-  lm( Tondu ~ age + Edu + income, data = TEDS_2016)
+regplot(model, observation = TEDS_2016[1,], interval = "confidence", points=TRUE)
+```
+
+![](images/image-650267701.png)
 
 # What is the problem? Why?
 

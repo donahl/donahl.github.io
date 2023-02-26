@@ -214,6 +214,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#regplot-on-tondu-age" id="toc-regplot-on-tondu-age" class="nav-link" data-scroll-target="#regplot-on-tondu-age">regplot on Tondu ~ Age</a></li>
   <li><a href="#regplot-tondu-education" id="toc-regplot-tondu-education" class="nav-link" data-scroll-target="#regplot-tondu-education">regplot Tondu ~ Education</a></li>
   <li><a href="#regplot-on-tondu-income" id="toc-regplot-on-tondu-income" class="nav-link" data-scroll-target="#regplot-on-tondu-income">regplot on Tondu ~ Income</a></li>
+  <li><a href="#regplot-on-tondu-all" id="toc-regplot-on-tondu-all" class="nav-link" data-scroll-target="#regplot-on-tondu-all">regplot on Tondu ~ All</a></li>
   <li><a href="#what-is-the-problem-why" id="toc-what-is-the-problem-why" class="nav-link" data-scroll-target="#what-is-the-problem-why">What is the problem? Why?</a></li>
   <li><a href="#what-can-be-done-to-improve-prediction-of-the-dependent-variable" id="toc-what-can-be-done-to-improve-prediction-of-the-dependent-variable" class="nav-link" data-scroll-target="#what-can-be-done-to-improve-prediction-of-the-dependent-variable">What can be done to improve prediction of the dependent variable?</a></li>
   </ul>
@@ -260,16 +261,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ✖ dplyr::lag()    masks stats::lag()</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>TEDS_2016 <span class="ot">&lt;-</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_stata</span>(<span class="st">"https://github.com/datageneration/home/blob/master/DataProgramming/data/TEDS_2016.dta?raw=true"</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>regplot<span class="ot">=</span><span class="cf">function</span>(x,y){</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  fit<span class="ot">=</span><span class="fu">lm</span>(y<span class="sc">~</span>x)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(x,y)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(fit,<span class="at">col=</span><span class="st">"red"</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(TEDS_2016)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(regplot)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>TEDS_2016 <span class="ot">&lt;-</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_stata</span>(<span class="st">"https://github.com/datageneration/home/blob/master/DataProgramming/data/TEDS_2016.dta?raw=true"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="subset-of-dataset" class="level1">
@@ -298,30 +293,112 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="regplot-on-tondu-age" class="level1">
 <h1>regplot on Tondu ~ Age</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(Tondu,age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="assignment3_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span>  <span class="fu">lm</span>( Tondu <span class="sc">~</span> age, <span class="at">data =</span> TEDS_2016)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(model, <span class="at">observation =</span> TEDS_2016[<span class="dv">1</span>,], <span class="at">interval =</span> <span class="st">"confidence"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Regression  model lm formula:</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Tondu `~` age</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>CI: 4.234(4.137,4.332)</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "note: points tables not constructed unless points=TRUE "</code></pre>
 </div>
 </div>
-<p>regplot(Tondu,age)</p>
+<p><img src="images/image-1332090515.png" class="img-fluid"></p>
 </section>
 <section id="regplot-tondu-education" class="level1">
 <h1>regplot Tondu ~ Education</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(Tondu,Edu)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="assignment3_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span>  <span class="fu">lm</span>( Tondu <span class="sc">~</span> Edu, <span class="at">data =</span> TEDS_2016)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(model, <span class="at">observation =</span> TEDS_2016[<span class="dv">1</span>,], <span class="at">interval =</span> <span class="st">"confidence"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Regression  model lm formula:</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Tondu `~` Edu</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>CI: 3.994(3.904,4.085)</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "note: points tables not constructed unless points=TRUE "</code></pre>
 </div>
 </div>
+<p><img src="images/image-2044271333.png" class="img-fluid"></p>
 </section>
 <section id="regplot-on-tondu-income" class="level1">
 <h1>regplot on Tondu ~ Income</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(Tondu,income)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="assignment3_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span>  <span class="fu">lm</span>( Tondu <span class="sc">~</span> income, <span class="at">data =</span> TEDS_2016)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(model, <span class="at">observation =</span> TEDS_2016[<span class="dv">1</span>,], <span class="at">interval =</span> <span class="st">"confidence"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Regression  model lm formula:</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Tondu `~` income</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>CI: 3.93(3.812,4.048)</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "note: points tables not constructed unless points=TRUE "</code></pre>
 </div>
 </div>
+<p><img src="images/image-1171967788.png" class="img-fluid"></p>
+</section>
+<section id="regplot-on-tondu-all" class="level1">
+<h1>regplot on Tondu ~ All</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span>  <span class="fu">lm</span>( Tondu <span class="sc">~</span> age <span class="sc">+</span> Edu <span class="sc">+</span> income, <span class="at">data =</span> TEDS_2016)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(model, <span class="at">observation =</span> TEDS_2016[<span class="dv">1</span>,], <span class="at">interval =</span> <span class="st">"confidence"</span>, <span class="at">points=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Regression  model lm formula:</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Tondu `~` age + Edu + income</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>CI: 3.901(3.754,4.047)</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+  income Points
+1      1     84
+2      5     72
+3      9     60
+
+[[2]]
+  Edu Points
+1   1    100
+2   2     88
+3   3     75
+4   4     62
+5   5     50
+6   6     38
+7   7     25
+8   8     13
+9   9      0
+
+[[3]]
+  age Points
+1  20     71
+
+[[4]]
+  Total Points mean Tondu
+1          140      3.113
+2          160      3.393
+3          180      3.673
+4          200      3.952
+5          220      4.232
+6          240      4.512
+7          260      4.792</code></pre>
+</div>
+</div>
+<p><img src="images/image-650267701.png" class="img-fluid"></p>
 </section>
 <section id="what-is-the-problem-why" class="level1">
 <h1>What is the problem? Why?</h1>

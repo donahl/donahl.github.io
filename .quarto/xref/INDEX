@@ -31,5 +31,14 @@
   },
   "assignments/Assignment1.qmd": {
     "Assignment1.html": "dc086197"
+  },
+  "assignments/assignment3_v0.qmd": {
+    "assignment3_v0.html": "1f6e8352"
+  },
+  "assignments/Assignment4_pcr.qmd": {
+    "Assignment4_pcr.html": "9d9b1e63"
+  },
+  "assignments/Assignment4_clustering.qmd": {
+    "Assignment4_clustering.html": "b8ab3b5f"
   }
 }
