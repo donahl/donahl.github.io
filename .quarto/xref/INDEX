@@ -40,5 +40,11 @@
   },
   "assignments/Assignment4_clustering.qmd": {
     "Assignment4_clustering.html": "b8ab3b5f"
+  },
+  "labs/Lab_textmining01.qmd": {
+    "Lab_textmining01.html": "5be70c1a"
+  },
+  "project/WeatherGdelt.qmd": {
+    "WeatherGdelt.html": "aa91301d"
   }
 }

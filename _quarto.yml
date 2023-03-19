@@ -28,11 +28,17 @@ website:
           text: Assignment 4 - PCR
         - href: assignments\Assignment4_clustering.qmd
           text: Assignment 4 - Clustering
+        - href: labs\Lab_textmining01.qmd
+          text: Assignment 5 - Text mining - MLK Speech
+#        - href: labs\Lab_sentiment_syuzhet01.qmd
+#          text: Assignment 5 - Sentiment anlaysis using syuzhet
+#        - href: labs\Lab_sentiment_tidytext01.qmd
+#          text: Assignment 5 - Sentiment anlaysis using tidytext
       - text: Paper Reviews
         menu:
         - href: ToExplainOrToPredict.qmd
           text: To Explain Or To Predict
-      - href: project.qmd
+      - href: project\WeatherGdelt.qmd
         text: Project
 
 format:

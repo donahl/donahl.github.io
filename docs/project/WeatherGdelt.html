@@ -8,7 +8,7 @@
 
 <meta name="author" content="Dona Lontok">
 
-<title>Dona Lontok - EPPS 6323: Assignment 3</title>
+<title>Dona Lontok - EPPS 6323: Semester Project</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -203,7 +203,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../project/WeatherGdelt.html">
+    <a class="nav-link active" href="../project/WeatherGdelt.html" aria-current="page">
  <span class="menu-text">Project</span></a>
   </li>  
 </ul>
@@ -221,14 +221,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#teds2016-dataset-multiple-regression-model" id="toc-teds2016-dataset-multiple-regression-model" class="nav-link active" data-scroll-target="#teds2016-dataset-multiple-regression-model">TEDS2016 dataset &amp; multiple regression model</a></li>
-  <li><a href="#subset-of-dataset" id="toc-subset-of-dataset" class="nav-link" data-scroll-target="#subset-of-dataset">Subset of dataset</a></li>
-  <li><a href="#regplot-on-tondu-age" id="toc-regplot-on-tondu-age" class="nav-link" data-scroll-target="#regplot-on-tondu-age">regplot on Tondu ~ Age</a></li>
-  <li><a href="#regplot-tondu-education" id="toc-regplot-tondu-education" class="nav-link" data-scroll-target="#regplot-tondu-education">regplot Tondu ~ Education</a></li>
-  <li><a href="#regplot-on-tondu-income" id="toc-regplot-on-tondu-income" class="nav-link" data-scroll-target="#regplot-on-tondu-income">regplot on Tondu ~ Income</a></li>
-  <li><a href="#regplot-on-tondu-all" id="toc-regplot-on-tondu-all" class="nav-link" data-scroll-target="#regplot-on-tondu-all">regplot on Tondu ~ All</a></li>
-  <li><a href="#what-is-the-problem-why" id="toc-what-is-the-problem-why" class="nav-link" data-scroll-target="#what-is-the-problem-why">What is the problem? Why?</a></li>
-  <li><a href="#what-can-be-done-to-improve-prediction-of-the-dependent-variable" id="toc-what-can-be-done-to-improve-prediction-of-the-dependent-variable" class="nav-link" data-scroll-target="#what-can-be-done-to-improve-prediction-of-the-dependent-variable">What can be done to improve prediction of the dependent variable?</a></li>
+  <li><a href="#weather-has-impact-on-events-reported-in-the-news" id="toc-weather-has-impact-on-events-reported-in-the-news" class="nav-link active" data-scroll-target="#weather-has-impact-on-events-reported-in-the-news">Weather has impact on events reported in the news</a>
+  <ul class="collapse">
+  <li><a href="#scatter-plot-of-temperature-and-positive-and-negative-events" id="toc-scatter-plot-of-temperature-and-positive-and-negative-events" class="nav-link" data-scroll-target="#scatter-plot-of-temperature-and-positive-and-negative-events">Scatter plot of Temperature and Positive and Negative events</a></li>
+  <li><a href="#linear-regression-xaverage-temperature-ypositive-events" id="toc-linear-regression-xaverage-temperature-ypositive-events" class="nav-link" data-scroll-target="#linear-regression-xaverage-temperature-ypositive-events">Linear regression (x=Average Temperature, y=Positive Events)</a></li>
+  <li><a href="#linear-regression-xaverage-temperature-ynegative-events" id="toc-linear-regression-xaverage-temperature-ynegative-events" class="nav-link" data-scroll-target="#linear-regression-xaverage-temperature-ynegative-events">Linear regression (x=Average Temperature, y=Negative Events)</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -237,7 +235,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">EPPS 6323: Assignment 3</h1>
+<h1 class="title">EPPS 6323: Semester Project</h1>
 </div>
 
 
@@ -258,8 +256,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="teds2016-dataset-multiple-regression-model" class="level1">
-<h1>TEDS2016 dataset &amp; multiple regression model</h1>
+<section id="weather-has-impact-on-events-reported-in-the-news" class="level1">
+<h1>Weather has impact on events reported in the news</h1>
+<section id="scatter-plot-of-temperature-and-positive-and-negative-events" class="level2">
+<h2 class="anchored" data-anchor-id="scatter-plot-of-temperature-and-positive-and-negative-events">Scatter plot of Temperature and Positive and Negative events</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -272,155 +272,142 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(regplot)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>TEDS_2016 <span class="ot">&lt;-</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_stata</span>(<span class="st">"https://github.com/datageneration/home/blob/master/DataProgramming/data/TEDS_2016.dta?raw=true"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="subset-of-dataset" class="level1">
-<h1>Subset of dataset</h1>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>TEDS_2016 <span class="sc">|&gt;</span> <span class="fu">select</span>(Tondu, female, DPP, age, income, edu, Taiwanese, Econ_worse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,690 × 8
-   Tondu                         female   DPP   age income   edu Taiwa…¹ Econ_…²
-   &lt;dbl+lbl&gt;                      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
- 1 3 [Maintain the status quo, …      1     0    59    8       4       1       0
- 2 5 [Maintain the status quo,m…      1     0    39    7       5       0       0
- 3 3 [Maintain the status quo, …      0     0    63    8       5       0       1
- 4 5 [Maintain the status quo,m…      0     0    55    5       2       1       1
- 5 9 [Nonresponse]                    1     0    76    5.5     1       0       0
- 6 4 [Maintain the status quo f…      1     1    64    9       2       1       1
- 7 9 [Nonresponse]                    0     0    75    1       1       0       1
- 8 6 [Immediate independence]         1     0    54   10       5       1       1
- 9 9 [Nonresponse]                    1     0    64    2       1       1       1
-10 9 [Nonresponse]                    0     0    59    5.5     1       0       1
-# … with 1,680 more rows, and abbreviated variable names ¹​Taiwanese,
-#   ²​Econ_worse</code></pre>
-</div>
-</div>
-</section>
-<section id="regplot-on-tondu-age" class="level1">
-<h1>regplot on Tondu ~ Age</h1>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span>  <span class="fu">lm</span>( Tondu <span class="sc">~</span> age, <span class="at">data =</span> TEDS_2016)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(model, <span class="at">observation =</span> TEDS_2016[<span class="dv">1</span>,], <span class="at">interval =</span> <span class="st">"confidence"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>gdelt <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">'Gdelt_data.csv'</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(gdelt)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>gdelt[<span class="st">"PosEvents"</span>] <span class="ot">&lt;-</span> Verbal.Cooperation<span class="sc">+</span>Material.Cooperation</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>gdelt[<span class="st">"NegEvents"</span>] <span class="ot">&lt;-</span> Verbal.Conflict<span class="sc">+</span>Material.Conflict</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>weather <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">'Weather_data.csv'</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>w_sum <span class="ot">=</span> weather <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Year, Month) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">AvgTemp=</span><span class="fu">mean</span>(Avg.Temperature)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Regression  model lm formula:</code></pre>
+<pre><code>`summarise()` has grouped output by 'Year'. You can override using the
+`.groups` argument.</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#dfw = weather %&gt;% filter(City=='DFW')</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">=</span> gdelt <span class="sc">|&gt;</span> <span class="fu">left_join</span>(w_sum, <span class="fu">join_by</span>(Year,Month))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(ds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Tondu `~` age</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>CI: 4.234(4.137,4.332)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "note: points tables not constructed unless points=TRUE "</code></pre>
-</div>
-</div>
-<p><img src="images/image-1332090515.png" class="img-fluid"></p>
-</section>
-<section id="regplot-tondu-education" class="level1">
-<h1>regplot Tondu ~ Education</h1>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span>  <span class="fu">lm</span>( Tondu <span class="sc">~</span> Edu, <span class="at">data =</span> TEDS_2016)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(model, <span class="at">observation =</span> TEDS_2016[<span class="dv">1</span>,], <span class="at">interval =</span> <span class="st">"confidence"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Regression  model lm formula:</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Tondu `~` Edu</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>CI: 3.994(3.904,4.085)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "note: points tables not constructed unless points=TRUE "</code></pre>
-</div>
-</div>
-<p><img src="images/image-2044271333.png" class="img-fluid"></p>
-</section>
-<section id="regplot-on-tondu-income" class="level1">
-<h1>regplot on Tondu ~ Income</h1>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span>  <span class="fu">lm</span>( Tondu <span class="sc">~</span> income, <span class="at">data =</span> TEDS_2016)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(model, <span class="at">observation =</span> TEDS_2016[<span class="dv">1</span>,], <span class="at">interval =</span> <span class="st">"confidence"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Regression  model lm formula:</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Tondu `~` income</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>CI: 3.93(3.812,4.048)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "note: points tables not constructed unless points=TRUE "</code></pre>
-</div>
-</div>
-<p><img src="images/image-1171967788.png" class="img-fluid"></p>
-</section>
-<section id="regplot-on-tondu-all" class="level1">
-<h1>regplot on Tondu ~ All</h1>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span>  <span class="fu">lm</span>( Tondu <span class="sc">~</span> age <span class="sc">+</span> Edu <span class="sc">+</span> income, <span class="at">data =</span> TEDS_2016)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(model, <span class="at">observation =</span> TEDS_2016[<span class="dv">1</span>,], <span class="at">interval =</span> <span class="st">"confidence"</span>, <span class="at">points=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Regression  model lm formula:</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Tondu `~` age + Edu + income</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>CI: 3.901(3.754,4.047)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[[1]]
-  income Points
-1      1     84
-2      5     72
-3      9     60
+<pre><code>The following objects are masked from gdelt:
 
-[[2]]
-  Edu Points
-1   1    100
-2   2     88
-3   3     75
-4   4     62
-5   5     50
-6   6     38
-7   7     25
-8   8     13
-9   9      0
-
-[[3]]
-  age Points
-1  20     71
-
-[[4]]
-  Total Points mean Tondu
-1          140      3.113
-2          160      3.393
-3          180      3.673
-4          200      3.952
-5          220      4.232
-6          240      4.512
-7          260      4.792</code></pre>
+    Material.Conflict, Material.Cooperation, Month, Verbal.Conflict,
+    Verbal.Cooperation, Year</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(AvgTemp,PosEvents)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="WeatherGdelt_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(AvgTemp,NegEvents)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="WeatherGdelt_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p><img src="images/image-650267701.png" class="img-fluid"></p>
 </section>
-<section id="what-is-the-problem-why" class="level1">
-<h1>What is the problem? Why?</h1>
-<p>Tondu is treated as a number, instead of a category</p>
+<section id="linear-regression-xaverage-temperature-ypositive-events" class="level2">
+<h2 class="anchored" data-anchor-id="linear-regression-xaverage-temperature-ypositive-events">Linear regression (x=Average Temperature, y=Positive Events)</h2>
+<p><strong>Conclusion</strong>: Shows positive correlation with higher temperature and count of positive events in the news</p>
+<p>P-value=0.0004091, R-squared=0.1813</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>lm.fit<span class="ot">=</span><span class="fu">lm</span>(PosEvents<span class="sc">~</span>AvgTemp,<span class="at">data=</span>ds)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>lm.fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = PosEvents ~ AvgTemp, data = ds)
+
+Coefficients:
+(Intercept)      AvgTemp  
+    44627.5        295.2  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = PosEvents ~ AvgTemp, data = ds)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-13408.6  -5009.8   -412.5   4124.7  27574.0 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 44627.53    5577.32   8.002 6.09e-11 ***
+AvgTemp       295.24      78.71   3.751 0.000409 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 7602 on 58 degrees of freedom
+Multiple R-squared:  0.1952,    Adjusted R-squared:  0.1813 
+F-statistic: 14.07 on 1 and 58 DF,  p-value: 0.0004091</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lm.fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 2.5 %     97.5 %
+(Intercept) 33463.3186 55791.7402
+AvgTemp       137.6806   452.8076</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(PosEvents<span class="sc">~</span>AvgTemp, <span class="at">data=</span>ds)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(lm.fit,<span class="at">lwd=</span><span class="dv">3</span>,<span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="WeatherGdelt_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 </section>
-<section id="what-can-be-done-to-improve-prediction-of-the-dependent-variable" class="level1">
-<h1>What can be done to improve prediction of the dependent variable?</h1>
-<p>Use a classification model, instead of regression. The dependent variable is a category, not a quantitative measure.</p>
+<section id="linear-regression-xaverage-temperature-ynegative-events" class="level2">
+<h2 class="anchored" data-anchor-id="linear-regression-xaverage-temperature-ynegative-events">Linear regression (x=Average Temperature, y=Negative Events)</h2>
+<p><strong>Conclusion</strong>: Also shows positive correlation with higher temperature and count of negative events in the news, but positive events have slightly higher correlation</p>
+<p>P-value=0.001885, R-squared=0.14</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>lm.fit<span class="ot">=</span><span class="fu">lm</span>(NegEvents<span class="sc">~</span>AvgTemp,<span class="at">data=</span>ds)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>lm.fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = NegEvents ~ AvgTemp, data = ds)
+
+Coefficients:
+(Intercept)      AvgTemp  
+    16529.0        151.2  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = NegEvents ~ AvgTemp, data = ds)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-6285.2 -2435.2  -854.4  1287.0 21984.3 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 16528.96    3289.26   5.025 5.13e-06 ***
+AvgTemp       151.19      46.42   3.257  0.00188 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 4484 on 58 degrees of freedom
+Multiple R-squared:  0.1546,    Adjusted R-squared:   0.14 
+F-statistic: 10.61 on 1 and 58 DF,  p-value: 0.001885</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lm.fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                2.5 %     97.5 %
+(Intercept) 9944.7948 23113.1312
+AvgTemp       58.2632   244.1115</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(NegEvents<span class="sc">~</span>AvgTemp, <span class="at">data=</span>ds)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(lm.fit,<span class="at">lwd=</span><span class="dv">3</span>,<span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="WeatherGdelt_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

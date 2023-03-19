@@ -1,0 +1,65 @@
+---
+title: "EPPS 6323: Semester Project"
+author: "Dona Lontok"
+format: html
+editor: visual
+---
+
+# Weather has impact on events reported in the news
+
+## Scatter plot of Temperature and Positive and Negative events
+
+```{r}
+library(tidyverse)
+library(dplyr)
+
+gdelt = read.csv('Gdelt_data.csv')
+attach(gdelt)
+gdelt["PosEvents"] <- Verbal.Cooperation+Material.Cooperation
+gdelt["NegEvents"] <- Verbal.Conflict+Material.Conflict
+
+weather = read.csv('Weather_data.csv')
+w_sum = weather %>% group_by(Year, Month) %>% summarise(AvgTemp=mean(Avg.Temperature)) 
+#dfw = weather %>% filter(City=='DFW')
+
+ds = gdelt |> left_join(w_sum, join_by(Year,Month))
+
+attach(ds)
+plot(AvgTemp,PosEvents)
+plot(AvgTemp,NegEvents)
+
+```
+
+## Linear regression (x=Average Temperature, y=Positive Events)
+
+**Conclusion**: Shows positive correlation with higher temperature and count of positive events in the news
+
+P-value=0.0004091, R-squared=0.1813
+
+```{r}
+
+lm.fit=lm(PosEvents~AvgTemp,data=ds)
+lm.fit
+summary(lm.fit)
+confint(lm.fit)
+
+plot(PosEvents~AvgTemp, data=ds)
+abline(lm.fit,lwd=3,col="red")
+```
+
+## Linear regression (x=Average Temperature, y=Negative Events)
+
+**Conclusion**: Also shows positive correlation with higher temperature and count of negative events in the news, but positive events have slightly higher correlation
+
+P-value=0.001885, R-squared=0.14
+
+```{r}
+
+lm.fit=lm(NegEvents~AvgTemp,data=ds)
+lm.fit
+summary(lm.fit)
+confint(lm.fit)
+
+plot(NegEvents~AvgTemp, data=ds)
+abline(lm.fit,lwd=3,col="red")
+```
