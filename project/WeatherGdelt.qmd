@@ -5,24 +5,122 @@ format: html
 editor: visual
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+
+```
+
 # Weather has impact on events reported in the news
 
-## Scatter plot of Temperature and Positive and Negative events
+```{r warning=FALSE}
 
-```{r}
-library(tidyverse)
-library(dplyr)
+summarize_weather_data <- function(w) {
+  
+  # select relevant columns only
+  w_sum = 
+    w |> select(DATE,Sunrise, Sunset, HourlySkyConditions,HourlyVisibility,
+                HourlyPrecipitation)
+  
+  # extract date/hour and cloud coverage column 
+  attach(w_sum)
+  w_sum["datehour"] <- substr(DATE, 0,13)
+  w_sum["cc"] <- ifelse (grepl("FEW|CLR", HourlySkyConditions), 1, -1)
+  
+  # summarize the cloud coverage and visibility per hour
+  w_sum1 = 
+    w_sum %>% 
+    group_by(datehour) %>% 
+    summarise(
+      CC=sum(cc), 
+      Visibility=mean(as.numeric(HourlyVisibility))
+      )
+  
+  # summary the cloudcoverage and visibility per month
+  attach(w_sum1)
+  w_sum1["Year"] = as.numeric(substr(datehour, 0,4))
+  w_sum1["Month"] = substr(datehour,6,7)
+  w_sum1["CC_flag"] = ifelse(CC > 0, 1, 0)
+  w_sum2 = 
+    w_sum1 %>%
+    filter (!is.na(Visibility)) %>%
+    group_by(Year,Month) %>%
+    summarise(
+      CCHours = sum(CC_flag),
+      AvgVisibility = mean(Visibility)
+    )
+  return (w_sum2)
+  }
+
+
+```
+
+## Load libraries and raw files
+
+```{r warning=FALSE}
+
+library(tidyverse, warn.conflicts = FALSE) 
+library(dplyr, warn.conflicts = FALSE)
+library(data.table, warn.conflicts = FALSE)
 
 gdelt = read.csv('Gdelt_data.csv')
 attach(gdelt)
 gdelt["PosEvents"] <- Verbal.Cooperation+Material.Cooperation
 gdelt["NegEvents"] <- Verbal.Conflict+Material.Conflict
 
-weather = read.csv('Weather_data.csv')
-w_sum = weather %>% group_by(Year, Month) %>% summarise(AvgTemp=mean(Avg.Temperature)) 
-#dfw = weather %>% filter(City=='DFW')
+weather_ds1 = read.csv('Weather_data.csv')
+weather_TX_temp = 
+  weather_ds1 %>% 
+  group_by(Year, Month) %>% 
+  summarise(AvgTemp=mean(Avg.Temperature)) 
 
-ds = gdelt |> left_join(w_sum, join_by(Year,Month))
+```
+
+## Load, clean and prepare weather data sets
+
+```{r warning=FALSE}
+
+# Illinois weather
+weather_ds2 = read.csv('2019 IL aurora_naperville weather.csv')
+weather_IL_cc = summarize_weather_data(weather_ds2)
+
+# California weather
+weather_ds2 = read.csv('2019 CA san diego weather.csv')
+weather_CA_cc = summarize_weather_data(weather_ds2)
+
+weather_ds2 = read.csv('2019 CA san francisco weather.csv')
+weather_CA_cc = rbind(summarize_weather_data(weather_ds2),weather_CA_cc)
+
+weather_ds2 = read.csv('2019 CA san jose weather.csv')
+weather_CA_cc = rbind(summarize_weather_data(weather_ds2), weather_CA_cc)
+
+# New York weather
+weather_ds2 = read.csv('2019 NY buffalo weather.csv')
+weather_NY_cc = summarize_weather_data(weather_ds2)
+
+weather_ds2 = read.csv('2019 NY nyc weather.csv')
+weather_NY_cc = rbind(summarize_weather_data(weather_ds2),weather_NY_cc)
+
+weather_ds2 = read.csv('2019 NY yonkers_westchester weather.csv')
+weather_NY_cc = rbind(summarize_weather_data(weather_ds2),weather_NY_cc)
+
+# Texas weather
+weather_ds2 = read.csv('2019 TX dallas weather.csv')
+weather_TX_cc = summarize_weather_data(weather_ds2)
+
+weather_ds2 = read.csv('2019 TX houston weather.csv')
+weather_TX_cc = rbind(summarize_weather_data(weather_ds2),weather_TX_cc)
+
+weather_ds2 = read.csv('2019 TX san antonio weather.csv')
+weather_TX_cc= rbind(summarize_weather_data(weather_ds2), weather_TX_cc)
+
+
+```
+
+## Scatter plot of Temperature and Positive and Negative events
+
+```{r warning=FALSE}
+
+ds = gdelt |> left_join(weather_TX_temp, join_by(Year,Month))
 
 attach(ds)
 plot(AvgTemp,PosEvents)
@@ -36,15 +134,24 @@ plot(AvgTemp,NegEvents)
 
 P-value=0.0004091, R-squared=0.1813
 
-```{r}
+```{r warning=FALSE}
 
 lm.fit=lm(PosEvents~AvgTemp,data=ds)
 lm.fit
 summary(lm.fit)
 confint(lm.fit)
 
+# From assignment 6, try this code
+plot(lm.fit,pch=20, cex=.8, col="steelblue")
+
 plot(PosEvents~AvgTemp, data=ds)
 abline(lm.fit,lwd=3,col="red")
+
+# From assignment 6, try this code
+# Uses coefplot to plot coefficients.  Note the line at 0.
+par(mfrow=c(1,1))
+arm::coefplot(lm.fit)
+
 ```
 
 ## Linear regression (x=Average Temperature, y=Negative Events)
@@ -53,7 +160,7 @@ abline(lm.fit,lwd=3,col="red")
 
 P-value=0.001885, R-squared=0.14
 
-```{r}
+```{r warning=FALSE}
 
 lm.fit=lm(NegEvents~AvgTemp,data=ds)
 lm.fit

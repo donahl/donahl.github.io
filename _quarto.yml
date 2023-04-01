@@ -34,6 +34,8 @@ website:
 #          text: Assignment 5 - Sentiment anlaysis using syuzhet
 #        - href: labs\Lab_sentiment_tidytext01.qmd
 #          text: Assignment 5 - Sentiment anlaysis using tidytext
+        - href: assignments\Assignment6_linearregression01.qmd
+          text: Assignment 6 - Linear and Multiple Regression
       - text: Paper Reviews
         menu:
         - href: ToExplainOrToPredict.qmd
