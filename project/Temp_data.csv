@@ -1,0 +1,133 @@
+Month_num,Month,State,City,Mean Temp
+1,Jan,California,San Francisco,55
+2,Feb,California,San Francisco,50
+3,Mar,California,San Francisco,54.5
+4,Apr,California,San Francisco,58.9
+5,May,California,San Francisco,58.6
+6,Jun,California,San Francisco,65.2
+7,Jul,California,San Francisco,64.8
+8,Aug,California,San Francisco,68.4
+9,Sep,California,San Francisco,68.1
+10,Oct,California,San Francisco,64.1
+11,Nov,California,San Francisco,56.4
+12,Dec,California,San Francisco,53.5
+1,Jan,California,San Jose,53.2
+2,Feb,California,San Jose,49.1
+3,Mar,California,San Jose,54.6
+4,Apr,California,San Jose,61.4
+5,May,California,San Jose,61.2
+6,Jun,California,San Jose,69.5
+7,Jul,California,San Jose,69.7
+8,Aug,California,San Jose,72.7
+9,Sep,California,San Jose,69.5
+10,Oct,California,San Jose,63.6
+11,Nov,California,San Jose,56.8
+12,Dec,California,San Jose,53.3
+1,Jan,California,San Diego,58.7
+2,Feb,California,San Diego,55.7
+3,Mar,California,San Diego,60.5
+4,Apr,California,San Diego,64.3
+5,May,California,San Diego,63.8
+6,Jun,California,San Diego,66.3
+7,Jul,California,San Diego,70.1
+8,Aug,California,San Diego,71.6
+9,Sep,California,San Diego,72.4
+10,Oct,California,San Diego,67.9
+11,Nov,California,San Diego,63.2
+12,Dec,California,San Diego,58.7
+1,Jan,Texas,Houston,53.4
+2,Feb,Texas,Houston,59.7
+3,Mar,Texas,Houston,62
+4,Apr,Texas,Houston,69.7
+5,May,Texas,Houston,78.6
+6,Jun,Texas,Houston,82.7
+7,Jul,Texas,Houston,84.9
+8,Aug,Texas,Houston,87.6
+9,Sep,Texas,Houston,83.9
+10,Oct,Texas,Houston,71.8
+11,Nov,Texas,Houston,60
+12,Dec,Texas,Houston,57.6
+1,Jan,Texas,San Antonio,52.1
+2,Feb,Texas,San Antonio,57.6
+3,Mar,Texas,San Antonio,60.6
+4,Apr,Texas,San Antonio,68.6
+5,May,Texas,San Antonio,77
+6,Jun,Texas,San Antonio,81.7
+7,Jul,Texas,San Antonio,84.8
+8,Aug,Texas,San Antonio,88.6
+9,Sep,Texas,San Antonio,85.8
+10,Oct,Texas,San Antonio,71.5
+11,Nov,Texas,San Antonio,58.7
+12,Dec,Texas,San Antonio,55.5
+1,Jan,Texas,Dallas,47.6
+2,Feb,Texas,Dallas,51.7
+3,Mar,Texas,Dallas,56.5
+4,Apr,Texas,Dallas,67.3
+5,May,Texas,Dallas,75.4
+6,Jun,Texas,Dallas,81.5
+7,Jul,Texas,Dallas,86.2
+8,Aug,Texas,Dallas,89
+9,Sep,Texas,Dallas,86.9
+10,Oct,Texas,Dallas,66.8
+11,Nov,Texas,Dallas,54.9
+12,Dec,Texas,Dallas,52.1
+1,Jan,Illinois,Chicago,22.5
+2,Feb,Illinois,Chicago,27.1
+3,Mar,Illinois,Chicago,35.4
+4,Apr,Illinois,Chicago,51
+5,May,Illinois,Chicago,69.1
+6,Jun,Illinois,Chicago,69
+7,Jul,Illinois,Chicago,77.1
+8,Aug,Illinois,Chicago,74.2
+9,Sep,Illinois,Chicago,71
+10,Oct,Illinois,Chicago,52.9
+11,Nov,Illinois,Chicago,36.4
+12,Dec,Illinois,Chicago,35.3
+1,Jan,Illinois,Aurora/Naperville,22.5
+2,Feb,Illinois,Aurora/Naperville,27.1
+3,Mar,Illinois,Aurora/Naperville,35.4
+4,Apr,Illinois,Aurora/Naperville,51
+5,May,Illinois,Aurora/Naperville,69.1
+6,Jun,Illinois,Aurora/Naperville,69.3
+7,Jul,Illinois,Aurora/Naperville,78.3
+8,Aug,Illinois,Aurora/Naperville,74.2
+9,Sep,Illinois,Aurora/Naperville,71
+10,Oct,Illinois,Aurora/Naperville,52.9
+11,Nov,Illinois,Aurora/Naperville,36.4
+12,Dec,Illinois,Aurora/Naperville,35.3
+1,Jan,New York,NYC,32.4
+2,Feb,New York,NYC,35.3
+3,Mar,New York,NYC,40.1
+4,Apr,New York,NYC,52.7
+5,May,New York,NYC,60.5
+6,Jun,New York,NYC,70.7
+7,Jul,New York,NYC,78.8
+8,Aug,New York,NYC,75.3
+9,Sep,New York,NYC,69.4
+10,Oct,New York,NYC,59.5
+11,Nov,New York,NYC,43.3
+12,Dec,New York,NYC,38.1
+1,Jan,New York,Buffalo,23
+2,Feb,New York,Buffalo,27.6
+3,Mar,New York,Buffalo,31.5
+4,Apr,New York,Buffalo,44.8
+5,May,New York,Buffalo,55.4
+6,Jun,New York,Buffalo,65.2
+7,Jul,New York,Buffalo,74
+8,Aug,New York,Buffalo,70.4
+9,Sep,New York,Buffalo,65.2
+10,Oct,New York,Buffalo,52.3
+11,Nov,New York,Buffalo,35.8
+12,Dec,New York,Buffalo,33.3
+1,Jan,New York,Yonkers,29.2
+2,Feb,New York,Yonkers,32.7
+3,Mar,New York,Yonkers,37.3
+4,Apr,New York,Yonkers,51.3
+5,May,New York,Yonkers,59
+6,Jun,New York,Yonkers,71.7
+7,Jul,New York,Yonkers,79.6
+8,Aug,New York,Yonkers,75.5
+9,Sep,New York,Yonkers,66.4
+10,Oct,New York,Yonkers,56.4
+11,Nov,New York,Yonkers,40.5
+12,Dec,New York,Yonkers,36.2

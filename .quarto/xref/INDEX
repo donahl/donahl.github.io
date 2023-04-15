@@ -49,5 +49,11 @@
   },
   "assignments/Assignment6_linearregression01.qmd": {
     "Assignment6_linearregression01.html": "6f35617a"
+  },
+  "assignments/Assignment7_logisticregression.qmd": {
+    "Assignment7_logisticregression.html": "eaab7980"
+  },
+  "assignments/Assignment8_LDA.qmd": {
+    "Assignment8_LDA.html": "6b4b4d08"
   }
 }

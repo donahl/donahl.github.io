@@ -36,6 +36,10 @@ website:
 #          text: Assignment 5 - Sentiment anlaysis using tidytext
         - href: assignments\Assignment6_linearregression01.qmd
           text: Assignment 6 - Linear and Multiple Regression
+        - href: assignments\Assignment7_logisticregression.qmd
+          text: Assignment 7 - Logistic Regression
+        - href: assignments\Assignment8_LDA.qmd
+          text: Assignment 8 - LDA
       - text: Paper Reviews
         menu:
         - href: ToExplainOrToPredict.qmd
