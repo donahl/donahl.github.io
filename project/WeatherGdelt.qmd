@@ -18,6 +18,9 @@ library(data.table, warn.conflicts = FALSE)
 
 library(performance)
 
+library(ggplot2)
+library(gridExtra)
+
 ```
 
 ## Data load functions
@@ -130,7 +133,8 @@ remove_night_records <- function(ds) {
     sprintf("%s%s:%s:00",
             substr(DATE,1,11),substr(Sunset_adj,1,2),substr(Sunset_adj,3,4))
   ss["SS_day"] = substr(DATE,1,10)
-  print (nrow(ss))
+  
+  if (nrow(ss) != 365) print('Data set does not have complete sunrise/sunset information')
 
   # merge hourly records with sunrise/sunset daily records
   attach(ds)
@@ -159,10 +163,28 @@ process_weather_data <- function(file_name) {
 ```{r}
 
 gdelt = read.csv('Gdelt_data.csv')
+#gdelt = read.csv('Gdelt_data_with_adj.csv')
 attach(gdelt)
+gdelt["Year"] = as.numeric(substr(as.character(MonthYear),1,4))
 gdelt["Month"] = as.numeric(substr(as.character(MonthYear),5,6))
 gdelt["PosEvents"] <- Verbal.Cooperation+Material.Cooperation
 gdelt["NegEvents"] <- Verbal.Conflict+Material.Conflict
+attach(gdelt)
+gdelt["AllEvents"] <- PosEvents + NegEvents
+
+
+
+```
+
+## Load average temperature data
+
+```{r warning=FALSE}
+
+weather_ds1 = read.csv('Temp_data.csv')
+weather_temp = 
+  weather_ds1 %>% 
+  group_by(Year,State, Month_num) %>% 
+  summarise(AvgTemp=mean(Mean.Temp)) 
 
 ```
 
@@ -170,73 +192,69 @@ gdelt["NegEvents"] <- Verbal.Conflict+Material.Conflict
 
 ```{r warning=FALSE}
 
-
-weather_ds1 = read.csv('Temp_data.csv')
-weather_temp = 
-  weather_ds1 %>% 
-  group_by(State, Month_num) %>% 
-  summarise(AvgTemp=mean(Mean.Temp)) 
-
 # Illinois weather, using Chicago only for Illinos, 
 # because   .csv doesn't have complete sunrise/sunset info
-weather_ds2 = process_weather_data('2019 chicago weather.csv')
-weather_IL_cc = summarize_weather_data(weather_ds2)
+weather_IL_cc = summarize_weather_data(process_weather_data('2019 chicago weather.csv'))
+weather_IL_cc = rbind(summarize_weather_data(process_weather_data('2017 chicago.csv')),weather_IL_cc)
+weather_IL_cc = rbind(summarize_weather_data(process_weather_data('2018 chicago.csv')),weather_IL_cc)
 
 weather_IL = 
   left_join(summarize_state_weather(weather_IL_cc),
             weather_temp %>% filter (State == 'Illinois'), 
-            by = join_by(Month == Month_num))
+            by = join_by(Year == Year, Month == Month_num))
 
-# California weather
-weather_ds2 = process_weather_data('2019 CA san diego weather.csv')
-weather_CA_cc = summarize_weather_data(weather_ds2)
-
-
-weather_ds2 = process_weather_data('2019 CA san francisco weather.csv')
-weather_CA_cc = rbind(summarize_weather_data(weather_ds2),weather_CA_cc)
-
-
-weather_ds2 = process_weather_data('2019 CA san jose weather.csv')
-weather_CA_cc = rbind(summarize_weather_data(weather_ds2), weather_CA_cc)
-
-weather_ds2 = process_weather_data('2019 los angeles weather.csv')
-weather_CA_cc = rbind(summarize_weather_data(weather_ds2), weather_CA_cc)
-
-weather_CA = 
-  left_join(summarize_state_weather(weather_CA_cc),
-            weather_temp %>% filter (State == 'California'), 
-            by = join_by(Month == Month_num))
-
-# New York weather
-weather_ds2 = process_weather_data('2019 NY buffalo weather.csv')
-weather_NY_cc = summarize_weather_data(weather_ds2)
-
-weather_ds2 = process_weather_data('2019 NY nyc weather.csv')
-weather_NY_cc = rbind(summarize_weather_data(weather_ds2),weather_NY_cc)
-
+# New York weather (NYC, Buffalo)
 # Yonkers has no complete sunrise and sunset information
-#weather_ds2 = process_weather_data('2019 NY yonkers_westchester weather.csv')
-#weather_NY_cc = rbind(summarize_weather_data(weather_ds2),weather_NY_cc)
+weather_NY_cc = summarize_weather_data(process_weather_data('2019 NY buffalo weather.csv'))
+weather_NY_cc = rbind(summarize_weather_data(process_weather_data('2019 NY nyc weather.csv')),weather_NY_cc)
+weather_NY_cc = rbind(summarize_weather_data(process_weather_data('2017 buffalo.csv')),weather_NY_cc)
+weather_NY_cc = rbind(summarize_weather_data(process_weather_data('2017 nyc.csv')),weather_NY_cc)
+weather_NY_cc = rbind(summarize_weather_data(process_weather_data('2018 buffalo.csv')),weather_NY_cc)
+weather_NY_cc = rbind(summarize_weather_data(process_weather_data('2018 nyc.csv')),weather_NY_cc)
 
 weather_NY = 
   left_join(summarize_state_weather(weather_NY_cc),
             weather_temp %>% filter (State == 'New York'), 
-            by = join_by(Month == Month_num))
+            by = join_by(Year == Year, Month == Month_num))
+
+# California weather
+weather_CA_cc = summarize_weather_data(process_weather_data('2019 CA san diego weather.csv'))
+weather_CA_cc = rbind(summarize_weather_data(process_weather_data('2019 CA san francisco weather.csv')),weather_CA_cc)
+weather_CA_cc = rbind(summarize_weather_data(process_weather_data('2019 CA san jose weather.csv')), weather_CA_cc)
+weather_CA_cc = rbind(summarize_weather_data(process_weather_data('2019 los angeles weather.csv')), weather_CA_cc)
+
+weather_CA_cc = rbind(summarize_weather_data(process_weather_data('2017 san diego.csv')),weather_CA_cc)
+weather_CA_cc = rbind(summarize_weather_data(process_weather_data('2017 san francisco weather.csv')),weather_CA_cc)
+weather_CA_cc = rbind(summarize_weather_data(process_weather_data('2017 san jose.csv')), weather_CA_cc)
+weather_CA_cc = rbind(summarize_weather_data(process_weather_data('2017 los angeles weather.csv')), weather_CA_cc)
+
+weather_CA_cc = rbind(summarize_weather_data(process_weather_data('2018 san diego.csv')),weather_CA_cc)
+weather_CA_cc = rbind(summarize_weather_data(process_weather_data('2018 san francisco.csv')),weather_CA_cc)
+weather_CA_cc = rbind(summarize_weather_data(process_weather_data('2018 san jose.csv')), weather_CA_cc)
+weather_CA_cc = rbind(summarize_weather_data(process_weather_data('2018 los angeles.csv')), weather_CA_cc)
+
+weather_CA = 
+  left_join(summarize_state_weather(weather_CA_cc),
+            weather_temp %>% filter (State == 'California'), 
+            by = join_by(Year == Year, Month == Month_num))
 
 # Texas weather
-weather_ds2 = process_weather_data('2019 TX dallas weather.csv')
-weather_TX_cc = summarize_weather_data(weather_ds2)
+weather_TX_cc = summarize_weather_data(process_weather_data('2019 TX dallas weather.csv'))
+weather_TX_cc = rbind(summarize_weather_data(process_weather_data('2019 TX houston weather.csv')),weather_TX_cc)
+weather_TX_cc= rbind(summarize_weather_data(process_weather_data('2019 TX san antonio weather.csv')), weather_TX_cc)
 
-weather_ds2 = process_weather_data('2019 TX houston weather.csv')
-weather_TX_cc = rbind(summarize_weather_data(weather_ds2),weather_TX_cc)
+weather_TX_cc = rbind(summarize_weather_data(process_weather_data('2017 houston.csv')),weather_TX_cc)
+weather_TX_cc = rbind(summarize_weather_data(process_weather_data('2017 dallas.csv')),weather_TX_cc)
+weather_TX_cc= rbind(summarize_weather_data(process_weather_data('2017 san antonio.csv')), weather_TX_cc)
 
-weather_ds2 = process_weather_data('2019 TX san antonio weather.csv')
-weather_TX_cc= rbind(summarize_weather_data(weather_ds2), weather_TX_cc)
+weather_TX_cc = rbind(summarize_weather_data(process_weather_data('2018 houston.csv')),weather_TX_cc)
+weather_TX_cc = rbind(summarize_weather_data(process_weather_data('2018 dallas.csv')),weather_TX_cc)
+weather_TX_cc= rbind(summarize_weather_data(process_weather_data('2018 san antonio.csv')), weather_TX_cc)
 
 weather_TX = 
   left_join(summarize_state_weather(weather_TX_cc),
             weather_temp %>% filter (State == 'Texas'), 
-            by = join_by(Month == Month_num))
+            by = join_by(Year == Year, Month == Month_num))
 
 
 ```
@@ -249,11 +267,11 @@ combine_weather_and_gdelt <- function (state_data,state_name) {
   
   attach(gdelt)
   gdelt_state_data = gdelt %>% 
-    select (Month, PosEvents, NegEvents) %>% filter(State == state_name)
+    select (Year, Month, PosEvents, NegEvents, AllEvents,AdjAllEvents) %>% filter(State == state_name)
 
   merge_ds = 
   left_join(state_data, gdelt_state_data, 
-            by = join_by(Month == Month))
+            by = join_by(Year == Year, Month == Month))
   return(merge_ds)
 }
 
@@ -266,9 +284,17 @@ dataset_CA = combine_weather_and_gdelt(weather_CA,"USCA")
 dataset_NY = combine_weather_and_gdelt(weather_NY,"USNY")
 dataset_TX = combine_weather_and_gdelt(weather_TX,"USTX")
 
-#dataset_ALL = rbind(dataset_IL,dataset_CA) - excluding Illinois
-dataset_ALL = rbind(dataset_CA,dataset_NY)
-dataset_ALL = rbind(dataset_ALL,dataset_TX)
+dataset_ALL = rbind(dataset_IL,dataset_CA) 
+dataset_ALL = rbind(dataset_ALL,dataset_NY)
+#dataset_ALL = rbind(dataset_ALL,dataset_TX) #- exlude Texas because it has inverse correlation
+
+
+#attach(dataset_ALL)
+#dataset_ALL[AdjAllEvents] = 
+#  if (State == 'California') { AllEvents * .64 
+#  } else if  (State == 'Illinois') { AllEvents * 2.2 
+#  } else if  (State == 'New York') { AllEvents * 1.33 
+#  } else if  (State == 'Texas') { AllEvents * .83 }
 
 ```
 
@@ -276,121 +302,154 @@ dataset_ALL = rbind(dataset_ALL,dataset_TX)
 
 ```{r}
 
-lm_plot <- function(ds,x,y,title) {
+lm_metrics <- function(ds,x,y) {
 
-  attach(ds)  
-  # run the model and plot 
+  # run the model
+  attach(ds)
   lm.fit=lm(y~x, data=ds)
   summary(lm.fit)
-  confint(lm.fit)
+  #confint(lm.fit)
 
-  attach(ds)    
-  par(mfrow=c(2,2))
-  plot(lm.fit,pch=19, cex=.8, col="steelblue", main = title)
-  
-  # plot the regression line
-  par(mfrow=c(1,1))
-  plot(y~x, data=ds, pch=19, cex=.8, col="steelblue", main = title)
-  abline(lm.fit,lwd=3,col="red")
-  
-  # Uses coefplot to plot coefficients.  Note the line at 0.
-  arm::coefplot(lm.fit)  
-  
+  #coef <- round(coef(lm.fit, 2))
+  #text(0, 0,  paste(": Y = ", coef[1], "+", coef[2], "x"), cex = 0.88, pos = 2, col = "darkgreen")  
 }
 
-```
+#-------------- POSITIVE EVENTS ------------------
 
-## Linear regression - All states
+lm_plot_NoCC_PosEvents <- function() {
+
+  p1 <- ggplot(dataset_TX,aes(y=PosEvents,x=NoCC))+geom_point()+geom_smooth(method="lm")+ggtitle("Texas")
+  p2 <- ggplot(dataset_CA,aes(y=PosEvents,x=NoCC))+geom_point()+geom_smooth(method="lm")+ggtitle("California")
+  p3 <- ggplot(dataset_NY,aes(y=PosEvents,x=NoCC))+geom_point()+geom_smooth(method="lm")+ggtitle("New York")
+  p4 <- ggplot(dataset_IL,aes(y=PosEvents,x=NoCC))+geom_point()+geom_smooth(method="lm")+ggtitle("Illinois")
+  
+  grid.arrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
+
+}
+
+lm_plot_AvgTemp_PosEvents <- function() {
+
+  p1 <- ggplot(dataset_TX,aes(y=PosEvents,x=AvgTemp))+geom_point()+geom_smooth(method="lm")+ggtitle("Texas")
+  p2 <- ggplot(dataset_CA,aes(y=PosEvents,x=AvgTemp))+geom_point()+geom_smooth(method="lm")+ggtitle("California")
+  p3 <- ggplot(dataset_NY,aes(y=PosEvents,x=AvgTemp))+geom_point()+geom_smooth(method="lm")+ggtitle("New York")
+  p4 <- ggplot(dataset_IL,aes(y=PosEvents,x=AvgTemp))+geom_point()+geom_smooth(method="lm")+ggtitle("Illinois")
+  
+  grid.arrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
+
+}
+
+lm_plot_AvgVisibility_PosEvents <- function() {
+
+  p1 <- ggplot(dataset_TX,aes(y=PosEvents,x=AvgVisibility))+geom_point()+geom_smooth(method="lm")+ggtitle("Texas")
+  p2 <- ggplot(dataset_CA,aes(y=PosEvents,x=AvgVisibility))+geom_point()+geom_smooth(method="lm")+ggtitle("California")
+  p3 <- ggplot(dataset_NY,aes(y=PosEvents,x=AvgVisibility))+geom_point()+geom_smooth(method="lm")+ggtitle("New York")
+  p4 <- ggplot(dataset_IL,aes(y=PosEvents,x=AvgVisibility))+geom_point()+geom_smooth(method="lm")+ggtitle("Illinois")
+  
+  grid.arrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
+
+}
+
+#-------------- NEGATIVE EVENTS ------------------
+
+lm_plot_NoCC_NegEvents <- function() {
+
+  p1 <- ggplot(dataset_TX,aes(y=NegEvents,x=NoCC))+geom_point()+geom_smooth(method="lm")+ggtitle("Texas")
+  p2 <- ggplot(dataset_CA,aes(y=NegEvents,x=NoCC))+geom_point()+geom_smooth(method="lm")+ggtitle("California")
+  p3 <- ggplot(dataset_NY,aes(y=NegEvents,x=NoCC))+geom_point()+geom_smooth(method="lm")+ggtitle("New York")
+  p4 <- ggplot(dataset_IL,aes(y=NegEvents,x=NoCC))+geom_point()+geom_smooth(method="lm")+ggtitle("Illinois")
+  
+  grid.arrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
+
+}
+
+lm_plot_AvgTemp_NegEvents <- function() {
+
+  p1 <- ggplot(dataset_TX,aes(y=NegEvents,x=AvgTemp))+geom_point()+geom_smooth(method="lm")+ggtitle("Texas")
+  p2 <- ggplot(dataset_CA,aes(y=NegEvents,x=AvgTemp))+geom_point()+geom_smooth(method="lm")+ggtitle("California")
+  p3 <- ggplot(dataset_NY,aes(y=NegEvents,x=AvgTemp))+geom_point()+geom_smooth(method="lm")+ggtitle("New York")
+  p4 <- ggplot(dataset_IL,aes(y=NegEvents,x=AvgTemp))+geom_point()+geom_smooth(method="lm")+ggtitle("Illinois")
+  
+  grid.arrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
+
+}
+
+lm_plot_AvgVisibility_NegEvents <- function() {
+
+  p1 <- ggplot(dataset_TX,aes(y=NegEvents,x=AvgVisibility))+geom_point()+geom_smooth(method="lm")+ggtitle("Texas")
+  p2 <- ggplot(dataset_CA,aes(y=NegEvents,x=AvgVisibility))+geom_point()+geom_smooth(method="lm")+ggtitle("California")
+  p3 <- ggplot(dataset_NY,aes(y=NegEvents,x=AvgVisibility))+geom_point()+geom_smooth(method="lm")+ggtitle("New York")
+  p4 <- ggplot(dataset_IL,aes(y=NegEvents,x=AvgVisibility))+geom_point()+geom_smooth(method="lm")+ggtitle("Illinois")
+  
+  grid.arrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
+
+}
+
+#-------------- ALL EVENTS ------------------
+
+lm_plot_NoCC_AllEvents <- function() {
+
+  p1 <- ggplot(dataset_TX,aes(y=AllEvents,x=NoCC))+geom_point()+geom_smooth(method="lm")+ggtitle("Texas")
+  p2 <- ggplot(dataset_CA,aes(y=AllEvents,x=NoCC))+geom_point()+geom_smooth(method="lm")+ggtitle("California")
+  p3 <- ggplot(dataset_NY,aes(y=AllEvents,x=NoCC))+geom_point()+geom_smooth(method="lm")+ggtitle("New York")
+  p4 <- ggplot(dataset_IL,aes(y=AllEvents,x=NoCC))+geom_point()+geom_smooth(method="lm")+ggtitle("Illinois")
+  
+  grid.arrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
+
+}
+
+lm_plot_AvgTemp_AllEvents <- function() {
+
+  p1 <- ggplot(dataset_TX,aes(y=AllEvents,x=AvgTemp))+geom_point()+geom_smooth(method="lm")+ggtitle("Texas")
+  p2 <- ggplot(dataset_CA,aes(y=AllEvents,x=AvgTemp))+geom_point()+geom_smooth(method="lm")+ggtitle("California")
+  p3 <- ggplot(dataset_NY,aes(y=AllEvents,x=AvgTemp))+geom_point()+geom_smooth(method="lm")+ggtitle("New York")
+  p4 <- ggplot(dataset_IL,aes(y=AllEvents,x=AvgTemp))+geom_point()+geom_smooth(method="lm")+ggtitle("Illinois")
+  
+  grid.arrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
+
+}
+
+lm_plot_AvgVisibility_AllEvents <- function() {
+
+  p1 <- ggplot(dataset_TX,aes(y=AllEvents,x=AvgVisibility))+geom_point()+geom_smooth(method="lm")+ggtitle("Texas")
+  p2 <- ggplot(dataset_CA,aes(y=AllEvents,x=AvgVisibility))+geom_point()+geom_smooth(method="lm")+ggtitle("California")
+  p3 <- ggplot(dataset_NY,aes(y=AllEvents,x=AvgVisibility))+geom_point()+geom_smooth(method="lm")+ggtitle("New York")
+  p4 <- ggplot(dataset_IL,aes(y=AllEvents,x=AvgVisibility))+geom_point()+geom_smooth(method="lm")+ggtitle("Illinois")
+  
+  grid.arrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
+
+}
+
+
+```
 
 ```{r}
 
-lm_plot(dataset_ALL,NoCC,PosEvents,"x=NoCC, Y=PosEvents")
-lm_plot(dataset_ALL,AvgTemp,PosEvents, "x=AvgTemp, Y=PosEvents")
-lm_plot(dataset_ALL,AvgVisibility,PosEvents,"x=AvgVisibility, Y=PosEvents")
-
-lm_plot(dataset_ALL,NoCC,NegEvents,"x=NoCC, Y=NegEvents")
-lm_plot(dataset_ALL,AvgTemp,NegEvents, "x=AvgTemp, Y=NegEvents")
-lm_plot(dataset_ALL,AvgVisibility,NegEvents,"x=AvgVisibility, Y=NegEvents")
-
-lm_plot(dataset_ALL,NoCC,PosEvents+NegEvents,"x=NoCC, Y=AllEvents")
-lm_plot(dataset_ALL,AvgTemp,PosEvents+NegEvents, "x=AvgTemp, Y=AllEvents")
-lm_plot(dataset_ALL,AvgVisibility,PosEvents+NegEvents,"x=AvgVisibility, Y=AllEvents")
-
+#lm_metrics(dataset_TX,NoCC,AllEvents)
+lm_metrics(dataset_TX,AvgTemp,AllEvents)
+#lm_metrics(dataset_TX,AvgVisibility,PosEvents)
 
 ```
 
-## Linear regression - Texas
-
-```{r warning=FALSE}
-
-lm_plot(dataset_TX,NoCC,PosEvents,"x=NoCC, Y=PosEvents")
-lm_plot(dataset_TX,AvgTemp,PosEvents, "x=AvgTemp, Y=PosEvents")
-lm_plot(dataset_TX,AvgVisibility,PosEvents,"x=AvgVisibility, Y=PosEvents")
-
-lm_plot(dataset_TX,NoCC,NegEvents,"x=NoCC, Y=NegEvents")
-lm_plot(dataset_TX,AvgTemp,NegEvents, "x=AvgTemp, Y=NegEvents")
-lm_plot(dataset_TX,AvgVisibility,NegEvents,"x=AvgVisibility, Y=NegEvents")
-
-lm_plot(dataset_TX,NoCC,PosEvents+NegEvents,"x=NoCC, Y=AllEvents")
-lm_plot(dataset_TX,AvgTemp,PosEvents+NegEvents, "x=AvgTemp, Y=AllEvents")
-lm_plot(dataset_TX,AvgVisibility,PosEvents+NegEvents,"x=AvgVisibility, Y=AllEvents")
-
-
-```
-
-## Linear regression - California
+## Linear regression - Plots
 
 ```{r}
 
-lm_plot(dataset_CA,NoCC,PosEvents,"x=NoCC, Y=PosEvents")
-lm_plot(dataset_CA,AvgTemp,PosEvents, "x=AvgTemp, Y=PosEvents")
-lm_plot(dataset_CA,AvgVisibility,PosEvents,"x=AvgVisibility, Y=PosEvents")
+lm_plot_NoCC_PosEvents()
+lm_plot_AvgTemp_PosEvents()
+lm_plot_AvgVisibility_PosEvents()
 
-lm_plot(dataset_CA,NoCC,NegEvents,"x=NoCC, Y=NegEvents")
-lm_plot(dataset_CA,AvgTemp,NegEvents, "x=AvgTemp, Y=NegEvents")
-lm_plot(dataset_CA,AvgVisibility,NegEvents,"x=AvgVisibility, Y=NegEvents")
+lm_plot_NoCC_NegEvents()
+lm_plot_AvgTemp_NegEvents()
+lm_plot_AvgVisibility_NegEvents()
 
-lm_plot(dataset_CA,NoCC,PosEvents+NegEvents,"x=NoCC, Y=AllEvents")
-lm_plot(dataset_CA,AvgTemp,PosEvents+NegEvents, "x=AvgTemp, Y=AllEvents")
-lm_plot(dataset_CA,AvgVisibility,PosEvents+NegEvents,"x=AvgVisibility, Y=AllEvents")
+lm_plot_NoCC_AllEvents()
+lm_plot_AvgTemp_AllEvents()
+lm_plot_AvgVisibility_AllEvents()
 
-```
-
-## Linear regression - New York
-
-```{r}
-
-lm_plot(dataset_NY,NoCC,PosEvents,"x=NoCC, Y=PosEvents")
-lm_plot(dataset_NY,AvgTemp,PosEvents, "x=AvgTemp, Y=PosEvents")
-lm_plot(dataset_NY,AvgVisibility,PosEvents,"x=AvgVisibility, Y=PosEvents")
-
-lm_plot(dataset_NY,NoCC,NegEvents,"x=NoCC, Y=NegEvents")
-lm_plot(dataset_NY,AvgTemp,NegEvents, "x=AvgTemp, Y=NegEvents")
-lm_plot(dataset_NY,AvgVisibility,NegEvents,"x=AvgVisibility, Y=NegEvents")
-
-lm_plot(dataset_NY,NoCC,PosEvents+NegEvents,"x=NoCC, Y=AllEvents")
-lm_plot(dataset_NY,AvgTemp,PosEvents+NegEvents, "x=AvgTemp, Y=AllEvents")
-lm_plot(dataset_NY,AvgVisibility,PosEvents+NegEvents,"x=AvgVisibility, Y=AllEvents")
 
 ```
 
-## Linear regression - Illinois
-
-```{r}
-
-lm_plot(dataset_IL,NoCC,PosEvents,"x=NoCC, Y=PosEvents")
-lm_plot(dataset_IL,AvgTemp,PosEvents, "x=AvgTemp, Y=PosEvents")
-lm_plot(dataset_IL,AvgVisibility,PosEvents,"x=AvgVisibility, Y=PosEvents")
-
-lm_plot(dataset_IL,NoCC,NegEvents,"x=NoCC, Y=NegEvents")
-lm_plot(dataset_IL,AvgTemp,NegEvents, "x=AvgTemp, Y=NegEvents")
-lm_plot(dataset_IL,AvgVisibility,NegEvents,"x=AvgVisibility, Y=NegEvents")
-
-lm_plot(dataset_IL,NoCC,PosEvents+NegEvents,"x=NoCC, Y=AllEvents")
-lm_plot(dataset_IL,AvgTemp,PosEvents+NegEvents, "x=AvgTemp, Y=AllEvents")
-lm_plot(dataset_IL,AvgVisibility,PosEvents+NegEvents,"x=AvgVisibility, Y=AllEvents")
-
-```
+## Multiple Linear Regression
 
 ```{r}
 
@@ -398,17 +457,18 @@ mlm_plot <- function(ds,y,title) {
   
   # run the model and plot 
   attach(ds)
+  #mlm.fit=lm(y~AvgTemp+NoCC)
   mlm.fit=lm(y~AvgTemp+NoCC+AvgVisibility)
   
-  par(mfrow=c(3,3), oma = c(0,0,4,0))
-  check_model(mlm.fit)
+  #par(mfrow=c(3,3), oma = c(0,0,4,0))
+  #check_model(mlm.fit)
 
   par(mfrow=c(2,2), oma = c(0,0,4,0))
   plot(mlm.fit,pch=20, cex=.8, col="steelblue", )
-  title(main = title, outer=TRUE, line=-1)
+  #title(main = title, outer=TRUE, line=-1)
   
   # plote each of the regression line
-  #par(mfrow=c(2,2))
+  par(mfrow=c(2,2))
 
   lm.fit_CC =lm(y~NoCC, data=ds)
   plot(y~NoCC, data=ds, pch=19, cex=.8, col="steelblue", main='NoCC', cex.main=1)
@@ -430,6 +490,7 @@ mlm_plot <- function(ds,y,title) {
   
   # this needs a big plot area to render
   #performance(mlm.fit)
+  #check_model(mlm.fit)
 
 }
 
@@ -438,10 +499,11 @@ mlm_plot <- function(ds,y,title) {
 
 ```{r}
 
-
-mlm_plot(dataset_ALL, PosEvents, "PosEvents")
-mlm_plot(dataset_ALL, NegEvents, "NegEvents")
-mlm_plot(dataset_ALL, PosEvents+NegEvents, "AllEvents")
+#mlm_plot(dataset_TX, PosEvents, "PosEvents")
+#mlm_plot(dataset_TX, NegEvents, "Negative Events")
+mlm_plot(dataset_ALL, AllEvents, "PosEvents")
+mlm_plot(dataset_ALL, AllEvents, "NegEvents")
+mlm_plot(dataset_ALL, AllEvents, "All Events")
 
 #ggplot(radial,aes(y=NTAV,x=age,color=weight))+geom_point()+stat_smooth(method="lm",se=FALSE)
 
