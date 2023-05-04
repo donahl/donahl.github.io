@@ -9,7 +9,7 @@ editor: visual
 
 ## Load packages
 
-```{r setup, warning=FALSE}
+```{r }
 # Knowledge Mining: Text mining
 # File: Lab_textmining01.R
 # Theme: Download text data from web and create wordcloud
@@ -18,7 +18,9 @@ editor: visual
 # Install the easypackages package 
 #install.packages(c("easypackages","XML","wordcloud","RColorBrewer","NLP","tm","quanteda","quanteda.textstats"))
 library(easypackages)
+library(xml2)
 libraries("XML","wordcloud","RColorBrewer","NLP","tm","quanteda","quanteda.textstats")
+
 
 ```
 

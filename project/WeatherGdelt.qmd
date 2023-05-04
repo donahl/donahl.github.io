@@ -267,7 +267,7 @@ combine_weather_and_gdelt <- function (state_data,state_name) {
   
   attach(gdelt)
   gdelt_state_data = gdelt %>% 
-    select (Year, Month, PosEvents, NegEvents, AllEvents,AdjAllEvents) %>% filter(State == state_name)
+    select (Year, Month, PosEvents, NegEvents, AllEvents) %>% filter(State == state_name)
 
   merge_ds = 
   left_join(state_data, gdelt_state_data, 
@@ -457,8 +457,8 @@ mlm_plot <- function(ds,y,title) {
   
   # run the model and plot 
   attach(ds)
-  #mlm.fit=lm(y~AvgTemp+NoCC)
-  mlm.fit=lm(y~AvgTemp+NoCC+AvgVisibility)
+  mlm.fit=lm(y~AvgTemp+NoCC)
+  #mlm.fit=lm(y~AvgTemp+NoCC+AvgVisibility)
   
   #par(mfrow=c(3,3), oma = c(0,0,4,0))
   #check_model(mlm.fit)
@@ -468,8 +468,9 @@ mlm_plot <- function(ds,y,title) {
   #title(main = title, outer=TRUE, line=-1)
   
   # plote each of the regression line
-  par(mfrow=c(2,2))
+  #par(mfrow=c(2,2))
 
+  
   lm.fit_CC =lm(y~NoCC, data=ds)
   plot(y~NoCC, data=ds, pch=19, cex=.8, col="steelblue", main='NoCC', cex.main=1)
   abline(lm.fit_CC,lwd=1,col="red")
@@ -478,15 +479,20 @@ mlm_plot <- function(ds,y,title) {
   plot(y~AvgTemp, data=ds, pch=19, cex=.8, col="steelblue", main='AvgTemp', cex.main=1)
   abline(lm.fit_AT,lwd=1,col="red")
 
+  if (FALSE)
+  {
   lm.fit_AV =lm(y~AvgVisibility, data=ds)
   plot(y~AvgVisibility, data=ds, pch=19, cex=.8, col="steelblue", main='AvgVisibility', cex.main=1)
   abline(lm.fit_AV,lwd=1,col="red")
+}
 
   # Uses coefplot to plot coefficients.  Note the line at 0.
   arm::coefplot(mlm.fit)  
 
   summary(mlm.fit)
   #confint(mlm.fit)
+  
+  #cor(AvgTemp,NoCC,method="pearson")
   
   # this needs a big plot area to render
   #performance(mlm.fit)
@@ -501,9 +507,9 @@ mlm_plot <- function(ds,y,title) {
 
 #mlm_plot(dataset_TX, PosEvents, "PosEvents")
 #mlm_plot(dataset_TX, NegEvents, "Negative Events")
-mlm_plot(dataset_ALL, AllEvents, "PosEvents")
-mlm_plot(dataset_ALL, AllEvents, "NegEvents")
-mlm_plot(dataset_ALL, AllEvents, "All Events")
+mlm_plot(dataset_ALL, PosEvents, "PosEvents")
+#mlm_plot(dataset_ALL, NegEvents, "NegEvents")
+#mlm_plot(dataset_ALL, AllEvents, "All Events")
 
 #ggplot(radial,aes(y=NTAV,x=age,color=weight))+geom_point()+stat_smooth(method="lm",se=FALSE)
 
